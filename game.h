@@ -6,6 +6,7 @@
 #include <chrono>
 #include <thread>
 
+#include "filehandler.h"
 #include "pause.h"
 
 using namespace std;

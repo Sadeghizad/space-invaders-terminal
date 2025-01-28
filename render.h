@@ -5,11 +5,12 @@
 #include <windows.h>
 
 #include "aliens.h"
+#include "logic.h"
+#include "constants.h"
 
 using namespace std;
 
-const int GRID_ROWS = 100;
-const int GRID_COLS = 130;
+
 
 
 void insertIntoGrid(const string alien[][MAX_ALIEN_COLS], int alienRows,
@@ -64,7 +65,7 @@ void eraseFromGrid(const string alien[][MAX_ALIEN_COLS], int alienRows,
         }
     }
 }
-void eraseGroupGrid(string grid[][GRID_COLS])
+void eraseGroupGrid(string grid[][GRID_COLS],EnemyGroup* enemies)
 {
     for (int i = 0; i < NUM_ALIENS; ++i)
     {
