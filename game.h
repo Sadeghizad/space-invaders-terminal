@@ -16,7 +16,6 @@ enemy a2{1, 20, 1};
 enemy a3{1, 40, 1};
 enemy rA{0, 100, 2};
 
-const int NUM_ALIENS = 13; // a1_1 to a3_4 and rA0
 int firstRow = redAlienHB.y;
 int secondRow = redAlienHB.y * 2 + 1;
 int thirdRow = redAlienHB.y * 3 + 1;
@@ -24,24 +23,26 @@ int firstCol = 8 * 0;
 int secondCol = 8 * 1;
 int thirdCol = 8 * 2;
 int forthCol = 8 * 3;
-EnemyGroup enemies[NUM_ALIENS]= {
-            // Initialize each enemy with appropriate hitBox and type
-            {enemy{false, 10, 1}, alien1NormalHB, "alien1", firstCol, firstRow},
-            {enemy{false, 10, 1}, alien1NormalHB, "alien1", secondCol, firstRow},
-            {enemy{false, 10, 1}, alien1NormalHB, "alien1", thirdCol, firstRow},
-            {enemy{false, 10, 1}, alien1NormalHB, "alien1", forthCol, firstRow},
-            {enemy{false, 20, 1}, alien2NormalHB, "alien2", firstCol, secondRow},
-            {enemy{false, 20, 1}, alien2NormalHB, "alien2", secondCol, secondRow},
-            {enemy{false, 20, 1}, alien2NormalHB, "alien2", thirdCol, secondRow},
-            {enemy{false, 20, 1}, alien2NormalHB, "alien2", forthCol, secondRow},
-            {enemy{false, 30, 1}, alien3NormalHB, "alien3", firstCol, thirdRow},
-            {enemy{false, 30, 1}, alien3NormalHB, "alien3", secondCol, thirdRow},
-            {enemy{false, 30, 1}, alien3NormalHB, "alien3", thirdCol, thirdRow},
-            {enemy{false, 30, 1}, alien3NormalHB, "alien3", forthCol, thirdRow},
-            {enemy{false, 50, 2}, redAlienHB, "redAlien", firstCol, 0}};
-
+EnemyGroup enemies[NUM_ALIENS] = {
+    // Initialize each enemy with appropriate hitBox and type
+    {enemy{false, 10, 1}, alien1NormalHB, "alien1", firstCol, firstRow},
+    {enemy{false, 10, 1}, alien1NormalHB, "alien1", secondCol, firstRow},
+    {enemy{false, 10, 1}, alien1NormalHB, "alien1", thirdCol, firstRow},
+    {enemy{false, 10, 1}, alien1NormalHB, "alien1", forthCol, firstRow},
+    {enemy{false, 20, 1}, alien2NormalHB, "alien2", firstCol, secondRow},
+    {enemy{false, 20, 1}, alien2NormalHB, "alien2", secondCol, secondRow},
+    {enemy{false, 20, 1}, alien2NormalHB, "alien2", thirdCol, secondRow},
+    {enemy{false, 20, 1}, alien2NormalHB, "alien2", forthCol, secondRow},
+    {enemy{false, 30, 1}, alien3NormalHB, "alien3", firstCol, thirdRow},
+    {enemy{false, 30, 1}, alien3NormalHB, "alien3", secondCol, thirdRow},
+    {enemy{false, 30, 1}, alien3NormalHB, "alien3", thirdCol, thirdRow},
+    {enemy{false, 30, 1}, alien3NormalHB, "alien3", forthCol, thirdRow},
+    {enemy{false, 50, 2}, redAlienHB, "redAlien", firstCol, 0}};
+shield covers[NUM_COVERS] = {
+    {0, 30, true, false, coverLeftFullHB},
+    {50, 30, true, false, coverRightFullHB}};
 void insertAliensGrid(string grid[][GRID_COLS], bool alternative);
-void initWave(bool &initiatedWave,EnemyGroup enemies[], int wave);
+void initWave(bool &initiatedWave, EnemyGroup enemies[], int wave);
 void displayCalibrationBox();
 void initGrid(int rows, int cols, string grid[][GRID_COLS]);
 void controllHandler(string grid[][GRID_COLS], PlayerLoc &player, bullet &playerBullet);
@@ -51,6 +52,7 @@ void run(PlayerLoc player, bool &newGame)
 {
     string grid[GRID_ROWS][GRID_COLS];
     bullet playerBullet;
+    bullet enemyBullet;
     const int target_fps = 4;
     const chrono::duration<double, milli> frame_duration(1000.0 / target_fps);
 
@@ -69,8 +71,8 @@ void run(PlayerLoc player, bool &newGame)
 
         // Game logic update
         controllHandler(grid, player, playerBullet);
-        initWave(initiatedWave,enemies, player.player.lastWave);
-        hitCheck(player, playerBullet);
+        initWave(initiatedWave, enemies, player.player.lastWave);
+        hitCheck(player, covers, playerBullet, enemyBullet);
 
         // Insert Entities
         // reset grid
@@ -85,12 +87,12 @@ void run(PlayerLoc player, bool &newGame)
 
         // Rendering
         render(grid);
-        cout << "x: "<<player.x << endl;
-        cout << "score: "<<player.player.score << endl;
-        cout << "level: "<<player.player.lastLevel << endl;
-        cout << "wave: "<<player.player.lastWave << endl;
-        cout << "playtime: "<<player.player.playtime << endl;
-        cout << "lives: "<<player.player.lives << endl;
+        cout << "x: " << player.x << endl;
+        cout << "score: " << player.player.score << endl;
+        cout << "level: " << player.player.lastLevel << endl;
+        cout << "wave: " << player.player.lastWave << endl;
+        cout << "playtime: " << player.player.playtime << endl;
+        cout << "lives: " << player.player.lives << endl;
         chrono::duration<double, milli> elapsed_time = chrono::steady_clock::now() - frame_start;
         if (elapsed_time < frame_duration)
         {
@@ -118,7 +120,7 @@ void run(PlayerLoc player, bool &newGame)
         moveAliens(grid, direct, enemies);
         frame_count++;
     }
-    if (player.player.lives<1)
+    if (player.player.lives < 1)
     {
         saveRecord("records.txt", player.player);
     }
@@ -133,7 +135,7 @@ void run(PlayerLoc player, bool &newGame)
             return;
         }
     }
-    cout << "Game loop ended." << endl;
+    cout << "Game Over(it always happen XD)" << endl;
     // delGrid(GRID_ROWS, grid); // for dynamic feature
     getch();
 }
@@ -206,8 +208,9 @@ void initWave(bool &initiatedWave, EnemyGroup enemies[], int wave)
 {
     if (!initiatedWave)
     {
-        for(int i=0;i<NUM_ALIENS;i++){
-            enemies[i].enemyIns.isAlive=true;
+        for (int i = 0; i < NUM_ALIENS; i++)
+        {
+            enemies[i].enemyIns.isAlive = true;
         }
         initiatedWave = true;
     }

@@ -7,6 +7,9 @@
 #include "sound.h"
 using namespace std;
 const int MAX_PLAYERS = 100;
+const int NUM_COVERS=2;
+const int NUM_ALIENS = 13; // a1_1 to a3_4 and rA0
+
 enum Direction
 {
     LEFT,
@@ -52,11 +55,21 @@ struct bullet
     int dmg;
     bool isShoot;
 };
+struct shield
+{
+    int x;
+    int y;
+    bool exist;
+    bool isBroken;
+    hitBox hb;
+};
 
-void hitCheck(PlayerLoc &player, bullet &golole)
+
+
+void hitCheck(PlayerLoc &player, shield shields[], bullet &playerB, bullet &enemyB)
 {
     // Check collision between player's bullet and aliens
-    if (golole.isShoot)
+    if (playerB.isShoot)
     {
         for (int i = 0; i < NUM_ALIENS; ++i)
         {
@@ -68,8 +81,8 @@ void hitCheck(PlayerLoc &player, bullet &golole)
             hitBox currentHB = alien.hb; // Adjust if you have alternate states
 
             // Check if bullet's position intersects with alien's position and hitBox
-            if (golole.x >= alien.x && golole.x < alien.x + currentHB.x &&
-                golole.y >= alien.y && golole.y < alien.y + currentHB.y)
+            if (playerB.x >= alien.x && playerB.x < alien.x + currentHB.x &&
+                playerB.y >= alien.y && playerB.y < alien.y + currentHB.y)
             {
                 // Collision detected
                 playSound("invaderkilled.wav");
@@ -78,7 +91,7 @@ void hitCheck(PlayerLoc &player, bullet &golole)
                 alien.enemyIns.isAlive = false;
 
                 // Stop the bullet
-                golole.isShoot = false;
+                playerB.isShoot = false;
 
                 // Update player's score
                 player.player.score += alien.enemyIns.bounsScore;
@@ -99,22 +112,18 @@ void hitCheck(PlayerLoc &player, bullet &golole)
         hitBox currentHB = alien.hb; // Adjust if you have alternate states
 
         // Player's spaceship boundaries
-        int playerLeft = player.x;
-        int playerRight = player.x + spaceShipHB.x;
+        // int playerLeft = player.x;
+        // int playerRight = player.x + spaceShipHB.x;
         int playerTop = player.y;
-        int playerBottom = player.y + spaceShipHB.y;
 
         // Alien's boundaries
-        int alienLeft = alien.x;
-        int alienRight = alien.x + currentHB.x;
-        int alienTop = alien.y;
+        // int alienLeft = alien.x;
+        // int alienRight = alien.x + currentHB.x;
+        // int alienTop = alien.y;
         int alienBottom = alien.y + currentHB.y;
 
-        // Check for overlap
-        bool overlap = !(alienRight < playerLeft || 
-                         alienLeft > playerRight || 
-                         alienBottom < playerTop || 
-                         alienTop > playerBottom);
+        // Check for overlap For now just on y axis
+        bool overlap = !(alienBottom <= playerTop);
 
         if (overlap)
         {
@@ -122,17 +131,61 @@ void hitCheck(PlayerLoc &player, bullet &golole)
             playSound("explosion.wav");
 
             // Handle player damage or game over
-            // Example: Decrease player health or set game over flag
-            // Here, we'll just mark the game as over
-            // You might need to pass additional parameters or flags to handle this
-            // For demonstration, we'll print a message
-            cout << "You've been hit by an alien!" << endl;
+            player.player.lives--;
             // You can set a game over flag here
         }
     }
 
-    // TODO: Implement collision between alien bullets and player
-    // This requires tracking alien bullets similarly to player bullets
+    if (enemyB.isShoot)
+    {
+
+        // Get current hitBox based on alien type or state
+        hitBox currentHB = spaceShipHB; // Adjust if you have alternate states
+
+        // Check if bullet's position intersects with alien's position and hitBox
+        if (enemyB.x >= player.x && enemyB.x < player.x + currentHB.x &&
+            enemyB.y >= player.y && enemyB.y < player.y + currentHB.y)
+        {
+            // Collision detected
+            playSound("explosion.wav");
+
+            // Update alien state
+            player.player.lives--;
+
+            // Stop the bullet
+            enemyB.isShoot = false;
+
+            // Update player's score
+            // Optionally, you can add more effects here (e.g., explosion animation)
+        }
+        for(int i=0;i<NUM_COVERS;i++){
+        currentHB = shields[i].hb; // Adjust if you have alternate states
+        if (enemyB.x >= shields[i].x && enemyB.x < shields[i].x + currentHB.x &&
+            enemyB.y >= shields[i].y && enemyB.y < shields[i].y + currentHB.y)
+        {
+            // Collision detected
+            playSound("explosion.wav");
+
+            // Update alien state
+            if (shields[i].exist)
+            {
+                if (shields[i].isBroken)
+                {
+                    shields[i].exist = false;
+                }
+                else
+                {
+                    shields[i].isBroken = false;
+                }
+            }
+
+            // Stop the bullet
+            enemyB.isShoot = false;
+
+            // Update player's score
+            // Optionally, you can add more effects here (e.g., explosion animation)
+        }}
+    } // This requires tracking alien bullets similarly to player bullets
 }
 
 void movePlayer(PlayerLoc &player, bool right)
