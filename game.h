@@ -67,10 +67,12 @@ void run(PlayerLoc player, bool &newGame)
     // player.player.lastLevel = 1;
     while (isRunning)
     {
+    // getch(); for debug
         chrono::steady_clock::time_point frame_start = chrono::steady_clock::now();
 
         // Game logic update
         controllHandler(grid, player, playerBullet);
+        nextStep(player,enemies);
         initWave(initiatedWave, enemies, player.player.lastWave);
         hitCheck(player,enemies, covers, playerBullet, enemyBullet);
 

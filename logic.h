@@ -10,8 +10,7 @@
 #include "constants.h"
 using namespace std;
 
-
-void hitCheck(PlayerLoc &player,EnemyGroup enemies[], shield shields[], bullet &playerB, bullet &enemyB)
+void hitCheck(PlayerLoc &player, EnemyGroup enemies[], shield shields[], bullet &playerB, bullet &enemyB)
 {
     // Check collision between player's bullet and aliens
     if (playerB.isShoot)
@@ -103,33 +102,35 @@ void hitCheck(PlayerLoc &player,EnemyGroup enemies[], shield shields[], bullet &
             // Update player's score
             // Optionally, you can add more effects here (e.g., explosion animation)
         }
-        for(int i=0;i<NUM_COVERS;i++){
-        currentHB = shields[i].hb; // Adjust if you have alternate states
-        if (enemyB.x >= shields[i].x && enemyB.x < shields[i].x + currentHB.x &&
-            enemyB.y >= shields[i].y && enemyB.y < shields[i].y + currentHB.y)
+        for (int i = 0; i < NUM_COVERS; i++)
         {
-            // Collision detected
-            playSound("explosion.wav");
-
-            // Update alien state
-            if (shields[i].exist)
+            currentHB = shields[i].hb; // Adjust if you have alternate states
+            if (enemyB.x >= shields[i].x && enemyB.x < shields[i].x + currentHB.x &&
+                enemyB.y >= shields[i].y && enemyB.y < shields[i].y + currentHB.y)
             {
-                if (shields[i].isBroken)
+                // Collision detected
+                playSound("explosion.wav");
+
+                // Update alien state
+                if (shields[i].exist)
                 {
-                    shields[i].exist = false;
+                    if (shields[i].isBroken)
+                    {
+                        shields[i].exist = false;
+                    }
+                    else
+                    {
+                        shields[i].isBroken = false;
+                    }
                 }
-                else
-                {
-                    shields[i].isBroken = false;
-                }
+
+                // Stop the bullet
+                enemyB.isShoot = false;
+
+                // Update player's score
+                // Optionally, you can add more effects here (e.g., explosion animation)
             }
-
-            // Stop the bullet
-            enemyB.isShoot = false;
-
-            // Update player's score
-            // Optionally, you can add more effects here (e.g., explosion animation)
-        }}
+        }
     } // This requires tracking alien bullets similarly to player bullets
 }
 
@@ -146,8 +147,14 @@ void movePlayer(PlayerLoc &player, bool right)
 }
 void moveAliens(string grid[][GRID_COLS], Direction &direction, EnemyGroup enemies[])
 {
-    eraseGroupGrid(grid,enemies);
+    eraseGroupGrid(grid, enemies);
     // Move based on direction
+    int speed = 1;
+    if (enemies[0].y >= 10)
+        speed = 2;
+    else if (enemies[0].y >= 20)
+        speed = 3;
+
     if (direction == RIGHT)
     {
         if (enemies[NUM_ALIENS - 1].x + 8 < GRID_COLS)
@@ -155,7 +162,7 @@ void moveAliens(string grid[][GRID_COLS], Direction &direction, EnemyGroup enemi
             for (int i = 0; i < NUM_ALIENS; i++)
             {
                 enemies[i].x++;
-                enemies[i].enemyIns.isAlternate=!enemies[i].enemyIns.isAlternate;
+                enemies[i].enemyIns.isAlternate = !enemies[i].enemyIns.isAlternate;
             }
         }
         else
@@ -171,7 +178,7 @@ void moveAliens(string grid[][GRID_COLS], Direction &direction, EnemyGroup enemi
             for (int i = 0; i < NUM_ALIENS; i++)
             {
                 enemies[i].x--;
-                enemies[i].enemyIns.isAlternate=!enemies[i].enemyIns.isAlternate;
+                enemies[i].enemyIns.isAlternate = !enemies[i].enemyIns.isAlternate;
             }
         }
         else
@@ -181,6 +188,22 @@ void moveAliens(string grid[][GRID_COLS], Direction &direction, EnemyGroup enemi
             for (int i = 0; i < NUM_ALIENS; i++)
             {
                 enemies[i].y++;
+            }
+        }
+    }
+}
+
+void nextStep(PlayerLoc &player,EnemyGroup* enemies){
+    bool win=true;
+    for(int i=0;i<NUM_ALIENS;i++){
+        if(enemies[i].enemyIns.isAlive){
+            win=false;
+            break;
+        }
+        if(win){
+            if(++player.player.lastWave){
+                player.player.lastLevel++;
+                player.player.lastWave=1;
             }
         }
     }
