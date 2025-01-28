@@ -11,63 +11,6 @@
 using namespace std;
 
 
-enum Direction
-{
-    LEFT,
-    RIGHT
-};
-
-struct enemy
-{
-    bool couldFire;
-    int bounsScore;
-    int speed;
-    bool isAlive = true;
-    bool isAlternate =false;
-};
-
-struct Player
-{
-    char username[50] = "Unknown";
-    int lastWave = 1;
-    int score = 0;
-    int playtime = 0;
-    int lastLevel = 1;
-    int lives = 3;
-};
-struct PlayerLoc
-{
-    const int y = GRID_ROWS - 5;
-    int x = GRID_COLS / 2;
-    Player player;
-};
-
-struct EnemyGroup
-{
-    enemy enemyIns;
-    hitBox hb;
-    string type; // e.g., "alien1", "alien2", "alien3", "redAlien"
-    int x;
-    int y;
-};
-struct bullet
-{
-    int x;
-    int y;
-    int dmg;
-    bool isShoot;
-};
-struct shield
-{
-    int x;
-    int y;
-    bool exist;
-    bool isBroken;
-    hitBox hb;
-};
-
-
-
 void hitCheck(PlayerLoc &player,EnemyGroup enemies[], shield shields[], bullet &playerB, bullet &enemyB)
 {
     // Check collision between player's bullet and aliens

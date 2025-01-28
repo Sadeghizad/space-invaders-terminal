@@ -3,15 +3,12 @@
 #define RENDER_H
 #include <iostream>
 #include <windows.h>
+#include <string>
 
 #include "aliens.h"
-#include "logic.h"
 #include "constants.h"
 
 using namespace std;
-
-
-
 
 void insertIntoGrid(const string alien[][MAX_ALIEN_COLS], int alienRows,
                     string grid[][GRID_COLS], int startRow, int startCol)

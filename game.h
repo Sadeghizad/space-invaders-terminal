@@ -8,6 +8,7 @@
 
 #include "filehandler.h"
 #include "pause.h"
+#include "constants.h"
 
 using namespace std;
 enemy a1{true, 10, 1};
@@ -24,19 +25,19 @@ int thirdCol = 8 * 2+2;
 int forthCol = 8 * 3+2;
 EnemyGroup enemies[NUM_ALIENS] = {
     // Initialize each enemy with appropriate hitBox and type
-    {enemy{true, 10, 1,false}, alien1NormalHB, "alien1", firstCol, firstRow},
-    {enemy{true, 10, 1,false}, alien1NormalHB, "alien1", secondCol, firstRow},
-    {enemy{true, 10, 1,false}, alien1NormalHB, "alien1", thirdCol, firstRow},
-    {enemy{true, 10, 1,false}, alien1NormalHB, "alien1", forthCol, firstRow},
-    {enemy{true, 20, 1,false}, alien2NormalHB, "alien2", firstCol, secondRow},
-    {enemy{true, 20, 1,false}, alien2NormalHB, "alien2", secondCol, secondRow},
-    {enemy{true, 20, 1,false}, alien2NormalHB, "alien2", thirdCol, secondRow},
-    {enemy{true, 20, 1,false}, alien2NormalHB, "alien2", forthCol, secondRow},
-    {enemy{true, 30, 1,false}, alien3NormalHB, "alien3", firstCol, thirdRow},
-    {enemy{true, 30, 1,false}, alien3NormalHB, "alien3", secondCol, thirdRow},
-    {enemy{true, 30, 1,false}, alien3NormalHB, "alien3", thirdCol, thirdRow},
-    {enemy{true, 30, 1,false}, alien3NormalHB, "alien3", forthCol, thirdRow},
-    {enemy{false, 50, 2,false}, redAlienHB, "redAlien", firstCol, 0}};
+    {enemy{true, 10, 1,false,false}, alien1NormalHB, "alien1", firstCol, firstRow},
+    {enemy{true, 10, 1,false,false}, alien1NormalHB, "alien1", secondCol, firstRow},
+    {enemy{true, 10, 1,false,false}, alien1NormalHB, "alien1", thirdCol, firstRow},
+    {enemy{true, 10, 1,false,false}, alien1NormalHB, "alien1", forthCol, firstRow},
+    {enemy{true, 20, 1,false,false}, alien2NormalHB, "alien2", firstCol, secondRow},
+    {enemy{true, 20, 1,false,false}, alien2NormalHB, "alien2", secondCol, secondRow},
+    {enemy{true, 20, 1,false,false}, alien2NormalHB, "alien2", thirdCol, secondRow},
+    {enemy{true, 20, 1,false,false}, alien2NormalHB, "alien2", forthCol, secondRow},
+    {enemy{true, 30, 1,false,false}, alien3NormalHB, "alien3", firstCol, thirdRow},
+    {enemy{true, 30, 1,false,false}, alien3NormalHB, "alien3", secondCol, thirdRow},
+    {enemy{true, 30, 1,false,false}, alien3NormalHB, "alien3", thirdCol, thirdRow},
+    {enemy{true, 30, 1,false,false}, alien3NormalHB, "alien3", forthCol, thirdRow},
+    {enemy{false, 50, 2,false,false}, redAlienHB, "redAlien", firstCol, 0}};
 shield covers[NUM_COVERS] = {
     {0, 30, true, false, coverLeftFullHB},
     {50, 30, true, false, coverRightFullHB}};

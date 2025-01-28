@@ -2,22 +2,10 @@
 #define ALIENS_H
 #include <iostream>
 #include <windows.h>
+#include "constants.h"
 
 using namespace std;
 
-const int MAX_ALIEN_COLS=18;
-
-struct txtCol
-{
-    int text;
-    int bg;
-};
-
-struct hitBox
-{
-    int x;
-    int y;
-};
 
 
 // General
