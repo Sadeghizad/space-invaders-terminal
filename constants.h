@@ -37,7 +37,7 @@ struct enemy
     bool couldFire;
     int bounsScore;
     int speed;
-    bool isAlive = true;
+    bool isAlive = false;
     bool isAlternate = false;
 };
 

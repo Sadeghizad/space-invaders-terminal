@@ -214,6 +214,7 @@ void initWave(bool &initiatedWave, EnemyGroup enemies[], int wave)
         {
             enemies[i].enemyIns.isAlive = true;
         }
+        enemies[NUM_ALIENS].enemyIns.isAlive=false;
         initiatedWave = true;
     }
 }
