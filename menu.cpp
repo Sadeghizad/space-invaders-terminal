@@ -15,6 +15,7 @@ void howToPlay();
 
 int main()
 {
+    srand(static_cast<unsigned int>(time(0)));
     PlayerLoc newPlayer;
 
     welcomeScreen();
@@ -49,6 +50,8 @@ int main()
         case '1':
             cout << "Enter Your name Guardian: ";
             cin >> newPlayer.player.username;
+            newPlayer.player.lastLevel = 1; // Ensure starting level is set to 1
+            newPlayer.player.lastWave = 1; 
             do
             {
                 // reset player
@@ -74,41 +77,41 @@ int main()
             break;
 
         case '4':
-            displayPlayers(RECORDS_FILE); // badan bayad tarif kard
+            displayPlayers(RECORDS_FILE);
             break;
 
         case '5':
             while (f)
             {
                 system("cls");
-                cout<<"cilck 1 to 5 to choose your charachter and q for exit from charachter choose";
+                cout << "cilck 1 to 3 to show charachter and q for exit" << endl;
                 char ch = getch();
-                if (ch == '1')
+                switch (ch)
                 {
+                case '1':
                     cout << " " << " " << "\u256d" << "\u2500" << "\u2500" << "\u2500" << "\u2500" << "\u256e" << endl;
                     cout << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << endl;
                     cout << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << endl;
                     cout << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << endl;
-                }
-                else if (ch == '2')
-                {
-                    cout << " " << " " << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << endl;
-                    cout << " " << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << endl;
-                    cout << "\u25a0" << "\u25a0" << "(" << "O" << ")" << "\u25a0" << "(" << "O" << ")" << "\u25a0" << "\u25a0" << endl;
-                    cout << " " << " " << " " << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << endl;
-                    cout << " " << " " << "\u25a0" << " " << " " << " " << " " << " " << "\u25a0" << " " << endl;
-                    cout << " " << "\u25a0" << " " << " " << " " << " " << " " << " " << " " << "\u25a0" << endl;
-                }
-                else if (ch == '3')
-                {
-                    cout << " " << " " << "\u256d" << "\u2500" << "\u2500" << "\u2500" << "\u2500" << "\u256e" << endl;
+                    break;
+                case '2':
+                    cout << "\u25a0" << " " << " " << "\u25a0" << " " << " " << "\u25a0" << " " << " " << "\u25a0" << endl;
                     cout << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << endl;
-                    cout << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << "\u2503" << endl;
+                    cout << " " << " " << " " << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << " " << " " << " " << endl;
                     cout << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << endl;
-                }
-                else if (ch == 'q')
-                {
+                    break;
+                case '3':
+                    cout << "\u25a0" << " " << " " << " " << " " << " " << " " << " " << " " << "\u25a0" << endl;
+                    cout << "\u25a0" << " " << " " << " " << "\u25a0" << "\u25a0" << " " << " " << " " << "\u25a0" << endl;
+                    cout << " " << "\u25a0" << " " << " " << "\u25a0" << "\u25a0" << " " << " " << "\u25a0" << " " << endl;
+                    cout << " " << " " << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << "\u25a0" << " " << " " << endl;
+                    break;
+                case 'q':
                     f = false;
+                    break;
+
+                default:
+                    break;
                 }
             }
 
@@ -120,6 +123,7 @@ int main()
         default:
             break;
         }
+        getch();
     }
     return 0;
 }

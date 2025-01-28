@@ -90,7 +90,7 @@ void updatefile(const char *filename, Player player)
 
     writeSavesToFile(filename, players, playerCount);
 }
-void findPlayer(const char *filename, char *username, int wave, int level)
+void findPlayer(const char *filename, char *username, int& wave, int &level)
 {
     Player players[MAX_PLAYERS];
 

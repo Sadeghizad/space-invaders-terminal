@@ -11,9 +11,11 @@ const int GRID_COLS = 130;
 const int MAX_PLAYERS = 100;
 const int NUM_COVERS = 2;
 const int NUM_ALIENS = 13;
+const int MAX_ENEMY_BULLETS = 5;
 const char* RECORDS_FILE = "records.txt";
 const int MAX_ALIEN_COLS = 18;
-
+const int playerSpeed=2;
+const int BulletsSpeed=2;
 enum Direction
 {
     LEFT,
@@ -34,9 +36,8 @@ struct hitBox
 
 struct enemy
 {
-    bool couldFire;
-    int bounsScore;
-    int speed;
+    bool couldFire=false;
+    int bounsScore=0;
     bool isAlive = false;
     bool isAlternate = false;
 };
@@ -83,5 +84,15 @@ struct shield
     bool isBroken;
     hitBox hb;
 };
+void setCursor(int x, int y)
+{
+    HANDLE hOut;
+    COORD Position;
 
+    hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    Position.X = x;
+    Position.Y = y;
+    SetConsoleCursorPosition(hOut, Position);
+}
 #endif // CONSTANTS_H

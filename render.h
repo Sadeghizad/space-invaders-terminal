@@ -34,8 +34,6 @@ void insertIntoGrid(const string alien[][MAX_ALIEN_COLS], int alienRows,
         }
     }
 }
-// render.h (continued)
-
 
 void eraseFromGrid(const string alien[][MAX_ALIEN_COLS], int alienRows,
                    string grid[][GRID_COLS], int startRow, int startCol)
@@ -62,15 +60,12 @@ void eraseFromGrid(const string alien[][MAX_ALIEN_COLS], int alienRows,
         }
     }
 }
-void eraseGroupGrid(string grid[][GRID_COLS],EnemyGroup* enemies)
+void eraseGroupGrid(string grid[][GRID_COLS], EnemyGroup *enemies)
 {
     for (int i = 0; i < NUM_ALIENS; ++i)
     {
-        // Check if the enemy is alive
-         // Skip dead enemies
-
         // Determine which image to use based on type and current state
-        const string (*alienImage)[MAX_ALIEN_COLS] = nullptr;
+        const string(*alienImage)[MAX_ALIEN_COLS] = nullptr;
         int alienRows = 0;
 
         if (enemies[i].type == "alien1")
@@ -101,21 +96,10 @@ void eraseGroupGrid(string grid[][GRID_COLS],EnemyGroup* enemies)
         }
     }
 }
-void setCursor(int x, int y)
-{
-    HANDLE hOut;
-    COORD Position;
 
-    hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    Position.X = x;
-    Position.Y = y;
-    SetConsoleCursorPosition(hOut, Position);
-}
 void render(string grid[][GRID_COLS])
 {
-    // system("cls");
-    setCursor(0,0);
+    setCursor(0, 0);
 
     for (int i = 0; i < GRID_ROWS; ++i)
     {
@@ -126,5 +110,19 @@ void render(string grid[][GRID_COLS])
         cout << '\n';
     }
 }
-
-#endif // RENDER_H
+void gameOverScreen()
+{
+    SetColor(4,0);
+    cout << "  ▄████  ▄▄▄       ███▄ ▄███▓▓█████     ▒█████   ██▒   █▓▓█████  ██▀███  "<<endl;
+    cout << " ██▒ ▀█▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀    ▒██▒  ██▒▓██░   █▒▓█   ▀ ▓██ ▒ ██▒"<<endl;
+    cout << "▒██░▄▄▄░▒██  ▀█▄  ▓██    ▓██░▒███      ▒██░  ██▒ ▓██  █▒░▒███   ▓██ ░▄█ ▒"<<endl;
+    cout << "░▓█  ██▓░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄    ▒██   ██░  ▒██ █░░▒▓█  ▄ ▒██▀▀█▄  "<<endl;
+    cout << "░▒▓███▀▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒   ░ ████▓▒░   ▒▀█░  ░▒████▒░██▓ ▒██▒"<<endl;
+    cout << " ░▒   ▒  ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░   ░ ▒░▒░▒░    ░ ▐░  ░░ ▒░ ░░ ▒▓ ░▒▓░"<<endl;
+    cout << "  ░   ░   ▒   ▒▒ ░░  ░      ░ ░ ░  ░     ░ ▒ ▒░    ░ ░░   ░ ░  ░  ░▒ ░ ▒░"<<endl;
+    cout << "░ ░   ░   ░   ▒   ░      ░      ░      ░ ░ ░ ▒       ░░     ░     ░░   ░ "<<endl;
+    cout << "      ░       ░  ░       ░      ░  ░       ░ ░        ░     ░  ░   ░     "<<endl;
+    cout << "                                                     ░                   " << endl;
+    SetColor(15,0);
+}
+#endif
