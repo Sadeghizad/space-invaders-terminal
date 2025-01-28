@@ -6,42 +6,40 @@
 #include <chrono>
 #include <thread>
 
-// #include "sound.h"
-#include "logic.h"
 #include "pause.h"
 
 using namespace std;
-enemy a1{1, 10, 1};
-enemy a2{1, 20, 1};
-enemy a3{1, 40, 1};
-enemy rA{0, 100, 2};
+enemy a1{true, 10, 1};
+enemy a2{true, 20, 1};
+enemy a3{true, 40, 1};
+enemy rA{false, 100, 2};
 
 int firstRow = redAlienHB.y;
 int secondRow = redAlienHB.y * 2 + 1;
 int thirdRow = redAlienHB.y * 3 + 1;
 int firstCol = 8 * 0;
-int secondCol = 8 * 1;
-int thirdCol = 8 * 2;
-int forthCol = 8 * 3;
+int secondCol = 8 * 1+2;
+int thirdCol = 8 * 2+2;
+int forthCol = 8 * 3+2;
 EnemyGroup enemies[NUM_ALIENS] = {
     // Initialize each enemy with appropriate hitBox and type
-    {enemy{false, 10, 1}, alien1NormalHB, "alien1", firstCol, firstRow},
-    {enemy{false, 10, 1}, alien1NormalHB, "alien1", secondCol, firstRow},
-    {enemy{false, 10, 1}, alien1NormalHB, "alien1", thirdCol, firstRow},
-    {enemy{false, 10, 1}, alien1NormalHB, "alien1", forthCol, firstRow},
-    {enemy{false, 20, 1}, alien2NormalHB, "alien2", firstCol, secondRow},
-    {enemy{false, 20, 1}, alien2NormalHB, "alien2", secondCol, secondRow},
-    {enemy{false, 20, 1}, alien2NormalHB, "alien2", thirdCol, secondRow},
-    {enemy{false, 20, 1}, alien2NormalHB, "alien2", forthCol, secondRow},
-    {enemy{false, 30, 1}, alien3NormalHB, "alien3", firstCol, thirdRow},
-    {enemy{false, 30, 1}, alien3NormalHB, "alien3", secondCol, thirdRow},
-    {enemy{false, 30, 1}, alien3NormalHB, "alien3", thirdCol, thirdRow},
-    {enemy{false, 30, 1}, alien3NormalHB, "alien3", forthCol, thirdRow},
-    {enemy{false, 50, 2}, redAlienHB, "redAlien", firstCol, 0}};
+    {enemy{true, 10, 1,false}, alien1NormalHB, "alien1", firstCol, firstRow},
+    {enemy{true, 10, 1,false}, alien1NormalHB, "alien1", secondCol, firstRow},
+    {enemy{true, 10, 1,false}, alien1NormalHB, "alien1", thirdCol, firstRow},
+    {enemy{true, 10, 1,false}, alien1NormalHB, "alien1", forthCol, firstRow},
+    {enemy{true, 20, 1,false}, alien2NormalHB, "alien2", firstCol, secondRow},
+    {enemy{true, 20, 1,false}, alien2NormalHB, "alien2", secondCol, secondRow},
+    {enemy{true, 20, 1,false}, alien2NormalHB, "alien2", thirdCol, secondRow},
+    {enemy{true, 20, 1,false}, alien2NormalHB, "alien2", forthCol, secondRow},
+    {enemy{true, 30, 1,false}, alien3NormalHB, "alien3", firstCol, thirdRow},
+    {enemy{true, 30, 1,false}, alien3NormalHB, "alien3", secondCol, thirdRow},
+    {enemy{true, 30, 1,false}, alien3NormalHB, "alien3", thirdCol, thirdRow},
+    {enemy{true, 30, 1,false}, alien3NormalHB, "alien3", forthCol, thirdRow},
+    {enemy{false, 50, 2,false}, redAlienHB, "redAlien", firstCol, 0}};
 shield covers[NUM_COVERS] = {
     {0, 30, true, false, coverLeftFullHB},
     {50, 30, true, false, coverRightFullHB}};
-void insertAliensGrid(string grid[][GRID_COLS], bool alternative);
+void insertAliensGrid(string grid[][GRID_COLS]);
 void initWave(bool &initiatedWave, EnemyGroup enemies[], int wave);
 void displayCalibrationBox();
 void initGrid(int rows, int cols, string grid[][GRID_COLS]);
@@ -83,7 +81,7 @@ void run(PlayerLoc player, bool &newGame)
         {
             insertIntoGrid(tir, tirHB.y, grid, playerBullet.y, playerBullet.x);
         }
-        insertAliensGrid(grid, frame_count % 2 == 0);
+        insertAliensGrid(grid);
 
         // Rendering
         render(grid);
@@ -122,7 +120,7 @@ void run(PlayerLoc player, bool &newGame)
     }
     if (player.player.lives < 1)
     {
-        saveRecord("records.txt", player.player);
+        saveRecord(RECORDS_FILE, player.player);
     }
     else
     {
@@ -215,7 +213,7 @@ void initWave(bool &initiatedWave, EnemyGroup enemies[], int wave)
         initiatedWave = true;
     }
 }
-void insertAliensGrid(string grid[][GRID_COLS], bool alternative)
+void insertAliensGrid(string grid[][GRID_COLS])
 {
     for (int i = 0; i < NUM_ALIENS; ++i)
     {
@@ -230,17 +228,17 @@ void insertAliensGrid(string grid[][GRID_COLS], bool alternative)
         // Select the appropriate alien image based on type and alternative flag
         if (enemies[i].type == "alien1")
         {
-            alienImage = alternative ? alien1Alternate : alien1Normal;
+            alienImage = enemies[i].enemyIns.isAlternate ? alien1Alternate : alien1Normal;
             alienRows = alien1NormalHB.y; // Number of rows in alien1 images
         }
         else if (enemies[i].type == "alien2")
         {
-            alienImage = alternative ? alien2Alternate : alien2Normal;
+            alienImage = enemies[i].enemyIns.isAlternate ? alien2Alternate : alien2Normal;
             alienRows = alien2NormalHB.y; // Number of rows in alien2 images
         }
         else if (enemies[i].type == "alien3")
         {
-            alienImage = alternative ? alien3Alternate : alien3Normal;
+            alienImage = enemies[i].enemyIns.isAlternate ? alien3Alternate : alien3Normal;
             alienRows = alien3NormalHB.y; // Number of rows in alien3 images
         }
         else if (enemies[i].type == "redAlien")

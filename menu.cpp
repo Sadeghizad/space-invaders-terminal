@@ -72,7 +72,7 @@ int main()
             break;
 
         case '4':
-            displayPlayers("records.txt"); // badan bayad tarif kard
+            displayPlayers(RECORDS_FILE); // badan bayad tarif kard
             break;
 
         case '5':

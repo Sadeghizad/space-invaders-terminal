@@ -5,10 +5,9 @@
 #include "aliens.h"
 #include "render.h"
 #include "sound.h"
+#include "constants.h"
 using namespace std;
-const int MAX_PLAYERS = 100;
-const int NUM_COVERS=2;
-const int NUM_ALIENS = 13; // a1_1 to a3_4 and rA0
+
 
 enum Direction
 {
@@ -19,9 +18,10 @@ enum Direction
 struct enemy
 {
     bool couldFire;
-    bool bounsScore;
+    int bounsScore;
     int speed;
     bool isAlive = true;
+    bool isAlternate =false;
 };
 
 struct Player
@@ -210,6 +210,7 @@ void moveAliens(string grid[][GRID_COLS], Direction &direction, EnemyGroup enemi
             for (int i = 0; i < NUM_ALIENS; i++)
             {
                 enemies[i].x++;
+                enemies[i].enemyIns.isAlternate=!enemies[i].enemyIns.isAlternate;
             }
         }
         else
@@ -225,6 +226,7 @@ void moveAliens(string grid[][GRID_COLS], Direction &direction, EnemyGroup enemi
             for (int i = 0; i < NUM_ALIENS; i++)
             {
                 enemies[i].x--;
+                enemies[i].enemyIns.isAlternate=!enemies[i].enemyIns.isAlternate;
             }
         }
         else
@@ -436,7 +438,7 @@ void saveRecord(const char *filename, Player player)
     writePlayersToFile(filename, players, playerCount);
 }
 
-void displayPlayers(char *filename)
+void displayPlayers(const char *filename)
 {
     Player players[MAX_PLAYERS];
 

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const int GRID_ROWS = 35;
+const int GRID_ROWS = 100;
 const int GRID_COLS = 130;
 
 
@@ -66,7 +66,43 @@ void eraseFromGrid(const string alien[][MAX_ALIEN_COLS], int alienRows,
 }
 void eraseGroupGrid(string grid[][GRID_COLS])
 {
-    //
+    for (int i = 0; i < NUM_ALIENS; ++i)
+    {
+        // Check if the enemy is alive
+        if (!enemies[i].enemyIns.isAlive)
+            continue; // Skip dead enemies
+
+        // Determine which image to use based on type and current state
+        const string (*alienImage)[MAX_ALIEN_COLS] = nullptr;
+        int alienRows = 0;
+
+        if (enemies[i].type == "alien1")
+        {
+            alienImage = enemies[i].enemyIns.isAlternate ? alien1Alternate : alien1Normal;
+            alienRows = 6;
+        }
+        else if (enemies[i].type == "alien2")
+        {
+            alienImage = enemies[i].enemyIns.isAlternate ? alien2Alternate : alien2Normal;
+            alienRows = 6;
+        }
+        else if (enemies[i].type == "alien3")
+        {
+            alienImage = enemies[i].enemyIns.isAlternate ? alien3Alternate : alien3Normal;
+            alienRows = 7;
+        }
+        else if (enemies[i].type == "redAlien")
+        {
+            alienImage = redAlien;
+            alienRows = 6;
+        }
+
+        // Erase the alien from the grid if a valid image was selected
+        if (alienImage != nullptr)
+        {
+            eraseFromGrid(alienImage, alienRows, grid, enemies[i].y, enemies[i].x);
+        }
+    }
 }
 
 void render(string grid[][GRID_COLS])
