@@ -66,7 +66,7 @@ struct shield
 
 
 
-void hitCheck(PlayerLoc &player, shield shields[], bullet &playerB, bullet &enemyB)
+void hitCheck(PlayerLoc &player,EnemyGroup enemies[], shield shields[], bullet &playerB, bullet &enemyB)
 {
     // Check collision between player's bullet and aliens
     if (playerB.isShoot)

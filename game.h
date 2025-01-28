@@ -72,7 +72,7 @@ void run(PlayerLoc player, bool &newGame)
         // Game logic update
         controllHandler(grid, player, playerBullet);
         initWave(initiatedWave, enemies, player.player.lastWave);
-        hitCheck(player, covers, playerBullet, enemyBullet);
+        hitCheck(player,enemies, covers, playerBullet, enemyBullet);
 
         // Insert Entities
         // reset grid
@@ -217,8 +217,47 @@ void initWave(bool &initiatedWave, EnemyGroup enemies[], int wave)
 }
 void insertAliensGrid(string grid[][GRID_COLS], bool alternative)
 {
-    //
+    for (int i = 0; i < NUM_ALIENS; ++i)
+    {
+        // Check if the enemy is alive
+        if (!enemies[i].enemyIns.isAlive)
+            continue; // Skip dead enemies
+
+        // Pointer to the alien image array
+        const string (*alienImage)[MAX_ALIEN_COLS] = nullptr;
+        int alienRows = 0;
+
+        // Select the appropriate alien image based on type and alternative flag
+        if (enemies[i].type == "alien1")
+        {
+            alienImage = alternative ? alien1Alternate : alien1Normal;
+            alienRows = alien1NormalHB.y; // Number of rows in alien1 images
+        }
+        else if (enemies[i].type == "alien2")
+        {
+            alienImage = alternative ? alien2Alternate : alien2Normal;
+            alienRows = alien2NormalHB.y; // Number of rows in alien2 images
+        }
+        else if (enemies[i].type == "alien3")
+        {
+            alienImage = alternative ? alien3Alternate : alien3Normal;
+            alienRows = alien3NormalHB.y; // Number of rows in alien3 images
+        }
+        else if (enemies[i].type == "redAlien")
+        {
+            alienImage = redAlien;
+            alienRows = redAlienHB.y; // Number of rows in redAlien images
+        }
+        // Add more types if necessary
+
+        // Insert the alien into the grid if a valid image was selected
+        if (alienImage != nullptr)
+        {
+            insertIntoGrid(alienImage, alienRows, grid, enemies[i].y, enemies[i].x);
+        }
+    }
 }
+
 
 // for dynamic feature
 // void delGrid(int rows, string grid[][GRID_COLS])

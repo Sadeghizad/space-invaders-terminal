@@ -62,7 +62,6 @@ const string alien1Alternate[6][MAX_ALIEN_COLS] = {
     {" ", "\u25a0", " "," ", " ", " ", " ", " ", " ", "\u25a0", " ",  "G","G","G","G","G","G","G"}
 };
 
-const hitBox alien1AlternateHB {6,11};
 
 
 const string alien2Normal[6][MAX_ALIEN_COLS] = {
@@ -86,7 +85,6 @@ const string alien2Alternate[6][MAX_ALIEN_COLS] = {
     {" ", " ", " ", "\u25a0", "\u25a0", "\u25a0", "\u25a0", "\u25a0", " ", " ", " ", "G","G","G","G","G","G","G"}
 };
 
-const hitBox alien2AlternateHB {6,11};
 
 const string alien3Normal[7][MAX_ALIEN_COLS] = {
     {" ",  "\u25a0"," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
@@ -112,7 +110,6 @@ const string alien3Alternate[7][MAX_ALIEN_COLS] = {
 };
 
 
-const hitBox alien3AlternateHB {7,MAX_ALIEN_COLS};
 
 const string redAlien[6][MAX_ALIEN_COLS] = {
     {" ", " ", " ", " ", "\u25a0", "\u25a0", "\u25a0", "\u25a0", "\u25a0", "\u25a0", "\u25a0", "\u25a0", "\u25a0", "\u25a0", " ", " ", " ", "G"},
@@ -148,7 +145,6 @@ const string coverRightBroken[7][MAX_ALIEN_COLS] = {
     {" ", " ", " ", " ", "\u25a0", "\u25a0", " ", "\u25a0", "G","G","G","G","G","G","G","G","G","G"}
 };
 
-const hitBox coverRightBrokenHB {7,8};
 
 const string coverLeftFull[7][MAX_ALIEN_COLS] = {
     {" ", " ", "\u25a0", "\u25a0", "\u25a0", "\u25a0", "\u25a0", "\u25a0", "G","G","G","G","G","G","G","G","G","G"},
@@ -172,7 +168,6 @@ const string coverLeftBroken[7][MAX_ALIEN_COLS] = {
     {"\u25a0", " ", "\u25a0", " ", "\u25a0", " ", " ", " ", "G","G","G","G","G","G","G","G","G","G"}
 };
 
-const hitBox coverLeftBrokenHB {7,8};
 
 
 // delete this if your sure
