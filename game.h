@@ -24,24 +24,24 @@ int firstCol = 8 * 0;
 int secondCol = 8 * 1;
 int thirdCol = 8 * 2;
 int forthCol = 8 * 3;
-EnemyGroup enemies[NUM_ALIENS] = {
-    // Initialize each enemy with appropriate hitBox and type
-    {enemy{true, 10, 1}, alien1NormalHB, "alien1", firstCol, firstRow},
-    {enemy{true, 10, 1}, alien1NormalHB, "alien1", secondCol, firstRow},
-    {enemy{true, 10, 1}, alien1NormalHB, "alien1", thirdCol, firstRow},
-    {enemy{true, 10, 1}, alien1NormalHB, "alien1", forthCol, firstRow},
-    {enemy{true, 20, 1}, alien2NormalHB, "alien2", firstCol, secondRow},
-    {enemy{true, 20, 1}, alien2NormalHB, "alien2", secondCol, secondRow},
-    {enemy{true, 20, 1}, alien2NormalHB, "alien2", thirdCol, secondRow},
-    {enemy{true, 20, 1}, alien2NormalHB, "alien2", forthCol, secondRow},
-    {enemy{true, 30, 1}, alien3NormalHB, "alien3", firstCol, thirdRow},
-    {enemy{true, 30, 1}, alien3NormalHB, "alien3", secondCol, thirdRow},
-    {enemy{true, 30, 1}, alien3NormalHB, "alien3", thirdCol, thirdRow},
-    {enemy{true, 30, 1}, alien3NormalHB, "alien3", forthCol, thirdRow},
-    {enemy{true, 50, 2}, redAlienHB, "redAlien", firstCol, 0}};
+EnemyGroup enemies[NUM_ALIENS]= {
+            // Initialize each enemy with appropriate hitBox and type
+            {enemy{false, 10, 1}, alien1NormalHB, "alien1", firstCol, firstRow},
+            {enemy{false, 10, 1}, alien1NormalHB, "alien1", secondCol, firstRow},
+            {enemy{false, 10, 1}, alien1NormalHB, "alien1", thirdCol, firstRow},
+            {enemy{false, 10, 1}, alien1NormalHB, "alien1", forthCol, firstRow},
+            {enemy{false, 20, 1}, alien2NormalHB, "alien2", firstCol, secondRow},
+            {enemy{false, 20, 1}, alien2NormalHB, "alien2", secondCol, secondRow},
+            {enemy{false, 20, 1}, alien2NormalHB, "alien2", thirdCol, secondRow},
+            {enemy{false, 20, 1}, alien2NormalHB, "alien2", forthCol, secondRow},
+            {enemy{false, 30, 1}, alien3NormalHB, "alien3", firstCol, thirdRow},
+            {enemy{false, 30, 1}, alien3NormalHB, "alien3", secondCol, thirdRow},
+            {enemy{false, 30, 1}, alien3NormalHB, "alien3", thirdCol, thirdRow},
+            {enemy{false, 30, 1}, alien3NormalHB, "alien3", forthCol, thirdRow},
+            {enemy{false, 50, 2}, redAlienHB, "redAlien", firstCol, 0}};
 
 void insertAliensGrid(string grid[][GRID_COLS], bool alternative);
-void initWave(bool &initiatedWave, int wave);
+void initWave(bool &initiatedWave,EnemyGroup enemies[], int wave);
 void displayCalibrationBox();
 void initGrid(int rows, int cols, string grid[][GRID_COLS]);
 void controllHandler(string grid[][GRID_COLS], PlayerLoc &player, bullet &playerBullet);
@@ -69,7 +69,7 @@ void run(PlayerLoc player, bool &newGame)
 
         // Game logic update
         controllHandler(grid, player, playerBullet);
-        initWave(initiatedWave, player.player.lastWave);
+        initWave(initiatedWave,enemies, player.player.lastWave);
         hitCheck(player, playerBullet);
 
         // Insert Entities
@@ -85,7 +85,12 @@ void run(PlayerLoc player, bool &newGame)
 
         // Rendering
         render(grid);
-        cout << player.x << endl;
+        cout << "x: "<<player.x << endl;
+        cout << "score: "<<player.player.score << endl;
+        cout << "level: "<<player.player.lastLevel << endl;
+        cout << "wave: "<<player.player.lastWave << endl;
+        cout << "playtime: "<<player.player.playtime << endl;
+        cout << "lives: "<<player.player.lives << endl;
         chrono::duration<double, milli> elapsed_time = chrono::steady_clock::now() - frame_start;
         if (elapsed_time < frame_duration)
         {
@@ -110,10 +115,10 @@ void run(PlayerLoc player, bool &newGame)
                     playerBullet.isShoot = false;
             }
         }
-        moveAliens(grid, direct);
+        moveAliens(grid, direct, enemies);
         frame_count++;
     }
-    if (loose)
+    if (player.player.lives<1)
     {
         saveRecord("records.txt", player.player);
     }
@@ -197,9 +202,15 @@ void controllHandler(string grid[][GRID_COLS], PlayerLoc &player, bullet &player
         }
     }
 }
-void initWave(bool &initiatedWave, int wave)
+void initWave(bool &initiatedWave, EnemyGroup enemies[], int wave)
 {
-    initiatedWave = true;
+    if (!initiatedWave)
+    {
+        for(int i=0;i<NUM_ALIENS;i++){
+            enemies[i].enemyIns.isAlive=true;
+        }
+        initiatedWave = true;
+    }
 }
 void insertAliensGrid(string grid[][GRID_COLS], bool alternative)
 {
