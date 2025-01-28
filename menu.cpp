@@ -38,12 +38,13 @@ int main()
         cout << " 3.HOW TO PLAY      # To learn how to play enter 3 # " << endl;
         cout << " 4.LEADERBOARD      # To see the leaderboard enter 4 # " << endl;
         cout << " 5.Show characters             # To select charachter in future # " << endl;
-        cout << " 6.EXIT             # To exit the game enter 6 # " << endl
-             << endl;
+        cout << " 6.Select color             # To select game theme # " << endl;
+        cout << " 7.EXIT             # To exit the game enter 7 # " << endl;
 
         operation = getch();
         int w = 1;
         int l = 1;
+        bool selectingTheme;
 
         switch (operation)
         {
@@ -51,7 +52,7 @@ int main()
             cout << "Enter Your name Guardian: ";
             cin >> newPlayer.player.username;
             newPlayer.player.lastLevel = 1; // Ensure starting level is set to 1
-            newPlayer.player.lastWave = 1; 
+            newPlayer.player.lastWave = 1;
             do
             {
                 // reset player
@@ -117,6 +118,45 @@ int main()
 
             break;
         case '6':
+            selectingTheme = true;
+            while (selectingTheme)
+            {
+                system("cls");
+                cout << "Select Game Theme:\n";
+                cout << "1. Light Theme (White on Black)\n";
+                cout << "2. Dark Theme (Bright White on Blue)\n";
+                cout << "3. Green Theme (Green on Black)\n";
+                cout << "4. Back to Main Menu\n";
+                cout << "Enter your choice: ";
+
+                char themeChoice = getch();
+                switch (themeChoice)
+                {
+                case '1':
+                    currentTheme = LIGHT_THEME;
+                    cout << "\nLight Theme Selected!";
+                    break;
+                case '2':
+                    currentTheme = DARK_THEME;
+                    cout << "\nDark Theme Selected!";
+                    break;
+                case '3':
+                    currentTheme = GREEN_THEME;
+                    cout << "\nGreen Theme Selected!";
+                    break;
+                case '4':
+                    selectingTheme = false;
+                    continue;
+                default:
+                    cout << "\nInvalid choice. Try again.";
+                    break;
+                }
+                SetColor(currentTheme.textColor,currentTheme.bgColor); // Apply the selected theme
+                cout << "\nPress any key to continue...";
+                getch();
+            }
+            break;
+        case '7':
             return -1;
             break;
 

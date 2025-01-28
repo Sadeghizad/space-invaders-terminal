@@ -22,11 +22,18 @@ enum Direction
     RIGHT
 };
 
-struct txtCol
-{
-    int text;
-    int bg;
+struct Theme {
+    int textColor;
+    int bgColor;
 };
+
+// Predefined themes
+const Theme LIGHT_THEME = { 7, 0 };    // White text on Black background
+const Theme DARK_THEME = { 15, 1 };    // Bright White text on Blue background
+const Theme GREEN_THEME = { 10, 0 };   // Green text on Black background
+const Theme BLUE_THEME = { 15, 16 };   // White text on Blue background
+// Add more themes as desired
+extern Theme currentTheme=LIGHT_THEME;
 
 struct hitBox
 {

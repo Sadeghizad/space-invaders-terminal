@@ -123,6 +123,6 @@ void gameOverScreen()
     cout << "░ ░   ░   ░   ▒   ░      ░      ░      ░ ░ ░ ▒       ░░     ░     ░░   ░ "<<endl;
     cout << "      ░       ░  ░       ░      ░  ░       ░ ░        ░     ░  ░   ░     "<<endl;
     cout << "                                                     ░                   " << endl;
-    SetColor(15,0);
+    SetColor(currentTheme.textColor,currentTheme.bgColor);
 }
 #endif
