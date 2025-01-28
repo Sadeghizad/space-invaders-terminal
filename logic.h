@@ -157,7 +157,7 @@ void moveAliens(string grid[][GRID_COLS], Direction &direction, EnemyGroup enemi
 
     if (direction == RIGHT)
     {
-        if (enemies[NUM_ALIENS - 1].x + 8 < GRID_COLS)
+        if (enemies[0].x * 4 + 10 < GRID_COLS)
         {
             for (int i = 0; i < NUM_ALIENS; i++)
             {

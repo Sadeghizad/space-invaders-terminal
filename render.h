@@ -67,8 +67,7 @@ void eraseGroupGrid(string grid[][GRID_COLS],EnemyGroup* enemies)
     for (int i = 0; i < NUM_ALIENS; ++i)
     {
         // Check if the enemy is alive
-        if (!enemies[i].enemyIns.isAlive)
-            continue; // Skip dead enemies
+         // Skip dead enemies
 
         // Determine which image to use based on type and current state
         const string (*alienImage)[MAX_ALIEN_COLS] = nullptr;
@@ -102,10 +101,22 @@ void eraseGroupGrid(string grid[][GRID_COLS],EnemyGroup* enemies)
         }
     }
 }
+void setCursor(int x, int y)
+{
+    HANDLE hOut;
+    COORD Position;
 
+    hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    Position.X = x;
+    Position.Y = y;
+    SetConsoleCursorPosition(hOut, Position);
+}
 void render(string grid[][GRID_COLS])
 {
-    system("cls");
+    // system("cls");
+    setCursor(0,0);
+
     for (int i = 0; i < GRID_ROWS; ++i)
     {
         for (int j = 0; j < GRID_COLS; ++j)
@@ -115,4 +126,5 @@ void render(string grid[][GRID_COLS])
         cout << '\n';
     }
 }
+
 #endif // RENDER_H

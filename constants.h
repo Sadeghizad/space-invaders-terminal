@@ -6,7 +6,7 @@
 
 using namespace std; // Ensure that 'string' is recognized without 'std::'
 
-const int GRID_ROWS = 100;
+const int GRID_ROWS = 70;
 const int GRID_COLS = 130;
 const int MAX_PLAYERS = 100;
 const int NUM_COVERS = 2;

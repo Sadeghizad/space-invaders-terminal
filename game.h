@@ -16,13 +16,13 @@ enemy a2{true, 20, 1};
 enemy a3{true, 40, 1};
 enemy rA{false, 100, 2};
 
-int firstRow = redAlienHB.y;
-int secondRow = redAlienHB.y * 2 + 1;
-int thirdRow = redAlienHB.y * 3 + 1;
-int firstCol = 8 * 0;
-int secondCol = 8 * 1+2;
-int thirdCol = 8 * 2+2;
-int forthCol = 8 * 3+2;
+int firstRow = alien1NormalHB.y;
+int secondRow = alien1NormalHB.y*2 + 1;
+int thirdRow = alien1NormalHB.y * 3 + 1;
+int firstCol = 0;
+int secondCol = 20 * 1;
+int thirdCol = 20 * 2;
+int forthCol = 20 * 3;
 EnemyGroup enemies[NUM_ALIENS] = {
     // Initialize each enemy with appropriate hitBox and type
     {enemy{true, 10, 1,false,false}, alien1NormalHB, "alien1", firstCol, firstRow},
