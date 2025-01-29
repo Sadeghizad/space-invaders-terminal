@@ -36,10 +36,10 @@ void hitCheck(PlayerLoc &player, EnemyGroup enemies[], shield shields[], bullet 
                     {
                         shields[j].isBroken = true; // Break the cover
                     }
+                playerB.isShoot = false;
                 }
 
                 // Disable the player bullet
-                playerB.isShoot = false;
 
                 break; // Assuming one collision per bullet
             }
@@ -143,10 +143,10 @@ void hitCheck(PlayerLoc &player, EnemyGroup enemies[], shield shields[], bullet 
                         {
                             shields[j].isBroken = true; // Break the cover
                         }
+                    enemyBullets[i].isShoot = false;
                     }
 
                     // Disable the bullet
-                    enemyBullets[i].isShoot = false;
                 }
             }
         }

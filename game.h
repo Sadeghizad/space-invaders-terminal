@@ -36,8 +36,8 @@ EnemyGroup enemies[NUM_ALIENS] = {
     {enemy{true, 30, false, false}, alien3NormalHB, "alien3", forthCol, thirdRow},
     {enemy{false, 50, false, false}, redAlienHB, "", firstCol, 0}};
 shield covers[NUM_COVERS] = {
-    {0, 30, true, false, coverLeftFullHB},
-    {50, 30, true, false, coverRightFullHB}};
+    {0, GRID_ROWS - 15, true, false, coverLeftFullHB},
+    {50, GRID_ROWS - 15, true, false, coverRightFullHB}};
 void insertAliensGrid(string grid[][GRID_COLS]);
 void initWave(bool &initiatedWave, EnemyGroup enemies[], int wave);
 void displayCalibrationBox();
