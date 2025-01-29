@@ -23,11 +23,11 @@ void hitCheck(PlayerLoc &player, EnemyGroup enemies[], shield shields[], bullet 
                 playerB.y >= shields[j].y && playerB.y < shields[j].y + currentHB.y)
             {
                 // Collision detected
-                playSound("shield_hit.wav"); // Optional: Add a sound for shield hits
 
                 // Update shield state
                 if (shields[j].exist)
                 {
+                playSound("shield_hit.wav"); // Optional: Add a sound for shield hits
                     if (shields[j].isBroken)
                     {
                         shields[j].exist = false; // Destroy the cover
@@ -130,11 +130,11 @@ void hitCheck(PlayerLoc &player, EnemyGroup enemies[], shield shields[], bullet 
                 if (enemyBullets[i].x >= shields[j].x && enemyBullets[i].x < shields[j].x + currentHB.x &&
                     enemyBullets[i].y >= shields[j].y && enemyBullets[i].y < shields[j].y + currentHB.y)
                 {
-                    playSound("explosion.wav");
 
                     // Update shield state
                     if (shields[j].exist)
                     {
+                    playSound("explosion.wav");
                         if (shields[j].isBroken)
                         {
                             shields[j].exist = false; // Destroy the cover
@@ -184,7 +184,7 @@ void moveAliens(string grid[][GRID_COLS], Direction &direction, EnemyGroup enemi
                 continue;
             lastAliveX = enemies[i - 1].x;
         }
-        if ((!enemies[enemyCols - i].enemyIns.isAlive) && (!enemies[enemyCols - i + 4].enemyIns.isAlive) && (!enemies[enemyCols - i + 2 * 4].enemyIns.isAlive))
+        if ((!enemies[enemyCols - i-1].enemyIns.isAlive) && (!enemies[enemyCols - i -1+ 4].enemyIns.isAlive) && (!enemies[enemyCols - i -1+ 2 * 4].enemyIns.isAlive))
         {
             if (!(enemyCols - i - 1 > 0))
                 continue;
