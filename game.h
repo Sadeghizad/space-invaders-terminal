@@ -191,32 +191,32 @@ void run(PlayerLoc &player, bool &newGame)
         eraseFromGrid(tir, tirHB.y, grid, playerBullet.y, playerBullet.x);
         moveBullets(grid, playerBullet, enemyBullets, BulletsSpeed, enemyBulletCount);
         moveAliens(grid, direct, enemies);
+        if (player.player.lives < 1)
+        {
+            system("cls");
+            gameOverScreen();
+            getch();
+            system("cls");
+            saveRecord(RECORDS_FILE, player.player);
+            cout << "Your record saved Champion(looser version)!" << endl;
+            getch();
+            displayPlayers(RECORDS_FILE);
+            getch();
+            return;
+        }
+        else
+        {
+            if (save)
+            {
+                saveAndExit(player.player);
+                return;
+            }
+            if (newGame)
+            {
+                return;
+            }
+        }
         frame_count++;
-    }
-    if (player.player.lives < 1)
-    {
-        system("cls");
-        gameOverScreen();
-        getch();
-        system("cls");
-        saveRecord(RECORDS_FILE, player.player);
-        cout << "Your record saved Champion(looser version)!" << endl;
-        getch();
-        displayPlayers(RECORDS_FILE);
-        getch();
-        return;
-    }
-    else
-    {
-        if (save)
-        {
-            saveAndExit(player.player);
-            return;
-        }
-        if (newGame)
-        {
-            return;
-        }
     }
     cout << "Game Over(it always happen XD)" << endl;
     getch();
