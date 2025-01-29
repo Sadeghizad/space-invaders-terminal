@@ -366,7 +366,7 @@ void reset(Player player)
     for (int i = 0; i < NUM_COVERS; i++)
     {
         covers[i].exist = true;
-        covers[i].isBroken = true;
+        covers[i].isBroken = false;
     }
 }
 #endif
