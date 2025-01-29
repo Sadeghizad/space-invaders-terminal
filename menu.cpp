@@ -42,8 +42,6 @@ int main()
         cout << " 7.EXIT             # To exit the game enter 7 # " << endl;
 
         operation = getch();
-        int w = 1;
-        int l = 1;
         bool selectingTheme;
 
         switch (operation)
@@ -53,6 +51,7 @@ int main()
             cin >> newPlayer.player.username;
             newPlayer.player.lastLevel = 1; // Ensure starting level is set to 1
             newPlayer.player.lastWave = 1;
+            reset(newPlayer.player);
             do
             {
                 // reset player
@@ -64,9 +63,8 @@ int main()
         case '2':
             cout << "Enter Your name Guardian: ";
             cin >> newPlayer.player.username;
-            findPlayer("saves.txt", newPlayer.player.username, w, l);
-            newPlayer.player.lastLevel = l;
-            newPlayer.player.lastWave = w;
+            findPlayer("saves.txt", newPlayer.player.username, newPlayer.player.lastWave, newPlayer.player.lastLevel,newPlayer.player.last_saved_score,newPlayer.player.lives);
+            reset(newPlayer.player);
             do
             {
                 run(newPlayer, newGame);

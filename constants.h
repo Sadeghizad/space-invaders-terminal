@@ -12,28 +12,29 @@ const int MAX_PLAYERS = 100;
 const int NUM_COVERS = 2;
 const int NUM_ALIENS = 13;
 const int MAX_ENEMY_BULLETS = 5;
-const char* RECORDS_FILE = "records.txt";
+const char *RECORDS_FILE = "records.txt";
 const int MAX_ALIEN_COLS = 18;
-const int playerSpeed=2;
-const int BulletsSpeed=2;
+const int playerSpeed = 2;
+const int BulletsSpeed = 2;
 enum Direction
 {
     LEFT,
     RIGHT
 };
 
-struct Theme {
+struct Theme
+{
     int textColor;
     int bgColor;
 };
 
 // Predefined themes
-const Theme LIGHT_THEME = { 7, 0 };    // White text on Black background
-const Theme DARK_THEME = { 15, 1 };    // Bright White text on Blue background
-const Theme GREEN_THEME = { 10, 0 };   // Green text on Black background
-const Theme BLUE_THEME = { 15, 16 };   // White text on Blue background
+const Theme LIGHT_THEME = {7, 0};  // White text on Black background
+const Theme DARK_THEME = {15, 1};  // Bright White text on Blue background
+const Theme GREEN_THEME = {10, 0}; // Green text on Black background
+const Theme BLUE_THEME = {15, 16}; // White text on Blue background
 // Add more themes as desired
-extern Theme currentTheme=LIGHT_THEME;
+extern Theme currentTheme = LIGHT_THEME;
 
 struct hitBox
 {
@@ -43,8 +44,8 @@ struct hitBox
 
 struct enemy
 {
-    bool couldFire=false;
-    int bounsScore=0;
+    bool couldFire = false;
+    int bounsScore = 0;
     bool isAlive = false;
     bool isAlternate = false;
 };
@@ -57,6 +58,7 @@ struct Player
     int playtime = 0;
     int lastLevel = 1;
     int lives = 3;
+    int last_saved_score = 0;
 };
 
 struct PlayerLoc

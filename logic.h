@@ -27,7 +27,7 @@ void hitCheck(PlayerLoc &player, EnemyGroup enemies[], shield shields[], bullet 
                 // Update shield state
                 if (shields[j].exist)
                 {
-                playSound("shield_hit.wav"); // Optional: Add a sound for shield hits
+                    playSound("shield_hit.wav"); // Optional: Add a sound for shield hits
                     if (shields[j].isBroken)
                     {
                         shields[j].exist = false; // Destroy the cover
@@ -36,7 +36,7 @@ void hitCheck(PlayerLoc &player, EnemyGroup enemies[], shield shields[], bullet 
                     {
                         shields[j].isBroken = true; // Break the cover
                     }
-                playerB.isShoot = false;
+                    playerB.isShoot = false;
                 }
 
                 // Disable the player bullet
@@ -134,7 +134,7 @@ void hitCheck(PlayerLoc &player, EnemyGroup enemies[], shield shields[], bullet 
                     // Update shield state
                     if (shields[j].exist)
                     {
-                    playSound("explosion.wav");
+                        playSound("explosion.wav");
                         if (shields[j].isBroken)
                         {
                             shields[j].exist = false; // Destroy the cover
@@ -143,7 +143,7 @@ void hitCheck(PlayerLoc &player, EnemyGroup enemies[], shield shields[], bullet 
                         {
                             shields[j].isBroken = true; // Break the cover
                         }
-                    enemyBullets[i].isShoot = false;
+                        enemyBullets[i].isShoot = false;
                     }
 
                     // Disable the bullet
@@ -180,13 +180,13 @@ void moveAliens(string grid[][GRID_COLS], Direction &direction, EnemyGroup enemi
     {
         if ((!enemies[i].enemyIns.isAlive) && (!enemies[i + 4].enemyIns.isAlive) && (!enemies[i + 2 * 4].enemyIns.isAlive))
         {
-            if (i + 1 > ((NUM_ALIENS - 1) / 3))
+            if (i + 1 > (((NUM_ALIENS - 1) / 3)))
                 continue;
             lastAliveX = enemies[i - 1].x;
         }
-        if ((!enemies[enemyCols - i-1].enemyIns.isAlive) && (!enemies[enemyCols - i -1+ 4].enemyIns.isAlive) && (!enemies[enemyCols - i -1+ 2 * 4].enemyIns.isAlive))
+        if ((!enemies[enemyCols - i - 1].enemyIns.isAlive) && (!enemies[enemyCols - i - 1 + 4].enemyIns.isAlive) && (!enemies[enemyCols - i - 1 + 2 * 4].enemyIns.isAlive))
         {
-            if (!(enemyCols - i - 1 > 0))
+            if (!(enemyCols - (i - 1 > 0)))
                 continue;
             firstAliveX = enemies[enemyCols - i + 1].x;
         }
@@ -235,7 +235,7 @@ void moveAliens(string grid[][GRID_COLS], Direction &direction, EnemyGroup enemi
     }
 }
 
-void nextStep(PlayerLoc &player, EnemyGroup *enemies)
+void nextStep(PlayerLoc &player, EnemyGroup *enemies,bool& initWave)
 {
     bool win = true;
     for (int i = 0; i < NUM_ALIENS; i++)
@@ -248,11 +248,12 @@ void nextStep(PlayerLoc &player, EnemyGroup *enemies)
     }
     if (win)
     {
-        if (++player.player.lastWave)
+        if (++player.player.lastWave>3)
         {
             player.player.lastLevel++;
             player.player.lastWave = 1;
         }
+        initWave=true;
     }
 }
 

@@ -17,7 +17,7 @@ int readSavesFromFile(const char *filename, Player players[], int maxPlayers)
     }
 
     int count = 0;
-    while (count < maxPlayers && file >> players[count].username >> players[count].lastLevel >> players[count].lastWave)
+    while (count < maxPlayers && file >> players[count].username >> players[count].lastLevel >> players[count].lastWave>> players[count].last_saved_score>> players[count].lives)
     {
         count++;
     }
@@ -53,7 +53,9 @@ void writeSavesToFile(const char *filename, Player players[], int count)
     {
         file << players[i].username << " "
              << players[i].lastLevel << " "
-             << players[i].lastWave << "\n";
+             << players[i].lastWave << " "
+             << players[i].last_saved_score << " "
+             << players[i].lives << "\n";
     }
     file.close();
     cout << "Error: Unable to save the game.\n";
@@ -90,7 +92,7 @@ void updatefile(const char *filename, Player player)
 
     writeSavesToFile(filename, players, playerCount);
 }
-void findPlayer(const char *filename, char *username, int& wave, int &level)
+void findPlayer(const char *filename, char *username, int& wave, int &level,int&score,int&lives)
 {
     Player players[MAX_PLAYERS];
 
@@ -104,6 +106,8 @@ void findPlayer(const char *filename, char *username, int& wave, int &level)
             found = true;
             wave = players[i].lastWave;
             level = players[i].lastLevel;
+            score = players[i].last_saved_score;
+            lives = players[i].lives;
             break;
         }
     }
