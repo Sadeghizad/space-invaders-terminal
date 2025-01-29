@@ -39,7 +39,7 @@ shield covers[NUM_COVERS] = {
     {0, GRID_ROWS - 15, true, false, coverLeftFullHB},
     {50, GRID_ROWS - 15, true, false, coverRightFullHB}};
 void insertAliensGrid(string grid[][GRID_COLS]);
-void initWave(bool &initiatedWave, EnemyGroup enemies[], int &fireChance,Player &player);
+void initWave(bool &initiatedWave, EnemyGroup enemies[], int &fireChance, Player &player);
 void displayCalibrationBox();
 void initGrid(int rows, int cols, string grid[][GRID_COLS]);
 void controllHandler(string grid[][GRID_COLS], PlayerLoc &player, bullet &playerBullet);
@@ -62,14 +62,14 @@ void run(PlayerLoc &player, bool &newGame)
     bool loose = false;
     bool initiatedWave = false;
     int frame_count = 0;
-    int fireChance=1;
+    int fireChance = 1;
     while (isRunning)
     {
         chrono::steady_clock::time_point frame_start = chrono::steady_clock::now();
 
         // Game logic
         controllHandler(grid, player, playerBullet);
-        initWave(initiatedWave, enemies, fireChance,player.player);
+        initWave(initiatedWave, enemies, fireChance, player.player);
         nextStep(player, enemies, initiatedWave);
         // Enemy shooting logic
         for (int i = 0; i < NUM_ALIENS - 1; i++)
@@ -287,15 +287,42 @@ void controllHandler(string grid[][GRID_COLS], PlayerLoc &player, bullet &player
         }
     }
 }
-void initWave(bool &initiatedWave, EnemyGroup enemies[], int &fireChance,Player &player)
+void initWave(bool &initiatedWave, EnemyGroup enemies[], int &fireChance, Player &player)
 {
-    int wave=player.lastWave;
-    int level=player.lastLevel;
+    int wave = player.lastWave;
+    int level = player.lastLevel;
     if (!initiatedWave)
     {
-        if(level>3) level=3;
+        if (level > 3)
+            level = 3;
         switch (wave)
         {
+            if (wave == 1 && level != 1)
+            {
+                setColor(2,240);
+                cout << R"(
+ _____  ___________  __________.     ___________   ___________.__     
+ \      \ \_   ___/\   \/  /\    ___/|    |    \_   _____/\   \ /   /\_   _____/|    |    
+ /   |   \ |    __)_  \     /   |    |   |    |     |    __)_  \   Y   /  |    __)_ |    |    
+/    |    \|        \ /     \   |    |   |    |_  |        \  \     /   |        \|    |_ 
+\__|  /_____  //_/\  \  |__|   |___ \/___  /   \_/   /_____  /|_____ \
+        \/        \/       \_/                   \/        \/                    \/         \/
+)";
+SetColor(currentTheme.textColor,currentTheme.bgColor);
+            }
+            if (wave != 1)
+            {
+                setColor(2,240);
+                cout << R"(
+ _____  ___________  ____________        _______   _____________
+ \      \ \_   ___/\   \/  /\    ___/  \    /  \/  _  \   \ /   /\_   _____/
+ /   |   \ |    __)_  \     /   |    |  \   \/\/   /  /_\  \   Y   /  |    __)_ 
+/    |    \|        \ /     \   |    |   \        /    |    \     /   |        \
+\__|  /_____  //_/\  \  |__|    \/\  /\__|  /\_/   /_____  /
+        \/        \/       \_/                 \/         \/                 \/ 
+)";
+SetColor(currentTheme.textColor,currentTheme.bgColor);
+            }
         case 3:
             for (int i = 0; i < level; i++)
             {
@@ -315,8 +342,8 @@ void initWave(bool &initiatedWave, EnemyGroup enemies[], int &fireChance,Player 
         default:
             break;
         }
-        player.last_saved_score=player.score;
-        fireChance+=10;
+        player.last_saved_score = player.score;
+        fireChance += 10;
         initiatedWave = true;
     }
 }
